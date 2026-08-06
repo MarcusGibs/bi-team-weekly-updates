@@ -497,10 +497,12 @@ async function loadUpdates() {
     if (response.ok) {
       updatesData = await response.json();
       displayUpdates();
+      console.log('Loaded updates:', updatesData.updates.length);
     }
   } catch (error) {
     console.log('No existing updates found, starting fresh');
   }
+  return updatesData;
 }
 
 function displayUpdates() {
@@ -1079,7 +1081,8 @@ function downloadJSON() {
 // Initialize
 loadUpdates().then(() => {
   // After loading existing updates, pre-load form with next week's data
-  preloadPreviousWeek();
+  console.log('About to preload, updates available:', updatesData.updates.length);
+  setTimeout(() => preloadPreviousWeek(), 200);
 });
 </script>
 </body>
