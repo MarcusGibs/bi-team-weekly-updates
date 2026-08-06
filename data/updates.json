@@ -13,12 +13,214 @@
       "adHoc": 2,
       "risks": 2,
       "owner": "BI Team",
-      "executiveSummary": "The BI team update remains Amber. Scorecard, Mega Report and MMM Report continue through internal and external testing, with the data-source transition from OLD UAT to the Training Environment as the next major milestone.",
+      "executiveSummary": "The BI team update remains Amber. Scorecard, Mega Report and MMM Report continue through internal and external testing, with the data-source transition from OLD UAT to the Training Environment as the next major milestone. Development is progressing for the Indemnity Report and GP Calculator. The Scheduling and Drafting Timeframe Report and OSB Tracker are moving from scoping toward development. Gross Margin and SPG Maintenance remain pending and are exposed to the current margin and claims-data risks.",
       "priorities": [
         "Prepare the OLD UAT to Training Environment data-source switch.",
         "Secure sufficient claims and margin testing data.",
         "Continue Indemnity, Scheduling, GP Calculator and OSB development.",
         "Draft the future intranet solution recommendation."
+      ],
+      "hb1Projects": [
+        {
+          "name": "Scorecard",
+          "technology": "Power BI",
+          "owner": "Mark",
+          "stages": {
+            "scoping": true,
+            "development": true,
+            "internalTesting": true,
+            "externalTesting": true,
+            "uat": false,
+            "hypercare": false
+          },
+          "thisWeek": "Continued testing for jobs with Canceled and On Hold statuses, plus Responsibility and Done by Worker data elements.",
+          "nextAction": "Prepare for the data-source switch from OLD UAT to the Training Environment.",
+          "forecast": "TBC — UAT readiness"
+        },
+        {
+          "name": "Mega Report",
+          "technology": "Power BI",
+          "owner": "Roed",
+          "stages": {
+            "scoping": true,
+            "development": true,
+            "internalTesting": true,
+            "externalTesting": true,
+            "uat": false,
+            "hypercare": false
+          },
+          "thisWeek": "Continued testing for jobs with Canceled and On Hold statuses, plus Responsibility and Done by Worker data elements.",
+          "nextAction": "Prepare for the data-source switch from OLD UAT to the Training Environment.",
+          "forecast": "TBC — UAT readiness"
+        },
+        {
+          "name": "MMM Report",
+          "technology": "Power BI",
+          "owner": "Roed / Lourdes",
+          "stages": {
+            "scoping": true,
+            "development": true,
+            "internalTesting": true,
+            "externalTesting": true,
+            "uat": false,
+            "hypercare": false
+          },
+          "thisWeek": "Continued testing for jobs with Canceled and On Hold statuses, plus Responsibility and Done by Worker data elements.",
+          "nextAction": "Prepare for the data-source switch from OLD UAT to the Training Environment.",
+          "forecast": "TBC — testing completion"
+        },
+        {
+          "name": "Indemnity Report",
+          "technology": "Power BI",
+          "owner": "Lourdes",
+          "stages": {
+            "scoping": true,
+            "development": true,
+            "internalTesting": false,
+            "externalTesting": false,
+            "uat": false,
+            "hypercare": false
+          },
+          "thisWeek": "Reviewed requirements and confirmed current data availability.",
+          "nextAction": "Continue development.",
+          "forecast": "TBC"
+        },
+        {
+          "name": "Scheduling and Drafting Timeframe Report",
+          "technology": "Power BI",
+          "owner": "Vanessa",
+          "stages": {
+            "scoping": true,
+            "development": false,
+            "internalTesting": false,
+            "externalTesting": false,
+            "uat": false,
+            "hypercare": false
+          },
+          "thisWeek": "SQL script review is in progress.",
+          "nextAction": "Continue development.",
+          "forecast": "TBC — development start"
+        },
+        {
+          "name": "Gross Margin Report",
+          "technology": "Power BI",
+          "owner": "Lourdes / Mark",
+          "stages": {
+            "scoping": false,
+            "development": false,
+            "internalTesting": false,
+            "externalTesting": false,
+            "uat": false,
+            "hypercare": false
+          },
+          "thisWeek": "No activity recorded for this reporting week.",
+          "nextAction": "Confirm scoping start and validate margin data readiness.",
+          "forecast": "TBC"
+        },
+        {
+          "name": "SPG Maintenance Report",
+          "technology": "Power BI",
+          "owner": "Lourdes / Mark",
+          "stages": {
+            "scoping": false,
+            "development": false,
+            "internalTesting": false,
+            "externalTesting": false,
+            "uat": false,
+            "hypercare": false
+          },
+          "thisWeek": "No activity recorded for this reporting week.",
+          "nextAction": "Confirm scoping start and validate claims data readiness.",
+          "forecast": "TBC"
+        },
+        {
+          "name": "GP Calculator",
+          "technology": "Power Apps / Power Automate",
+          "owner": "Mark",
+          "stages": {
+            "scoping": true,
+            "development": true,
+            "internalTesting": false,
+            "externalTesting": false,
+            "uat": false,
+            "hypercare": false
+          },
+          "thisWeek": "Reviewed requirements and data availability. Completed a process walkthrough with users.",
+          "nextAction": "Connect GP Calculator stages to HB1 and ask Gavin / Rein to upload a sample Costing Sheet.",
+          "forecast": "TBC — discovery dependency"
+        },
+        {
+          "name": "OSB Tracker",
+          "technology": "Power Apps / Power Automate",
+          "owner": "Roed",
+          "stages": {
+            "scoping": true,
+            "development": false,
+            "internalTesting": false,
+            "externalTesting": false,
+            "uat": false,
+            "hypercare": false
+          },
+          "thisWeek": "Completed an initial review of the application codebase.",
+          "nextAction": "Continue development.",
+          "forecast": "TBC — development start"
+        }
+      ],
+      "otherProjects": [
+        {
+          "name": "Gasco Call-Up and Inspection Report",
+          "technology": "Power BI",
+          "owner": "Roed",
+          "status": "paused",
+          "thisWeek": "The initiative remains paused based on client advice.",
+          "nextAction": "Resume only after client confirmation.",
+          "forecast": "Paused"
+        },
+        {
+          "name": "Planning for the Future — Intranet",
+          "technology": "TBA",
+          "owner": "Mark / Vanessa",
+          "status": "progress",
+          "thisWeek": "Reviewed and assessed current intranet usage.",
+          "nextAction": "Draft the solution recommendation.",
+          "forecast": "TBC — recommendation draft"
+        }
+      ],
+      "adHocRequests": [
+        {
+          "name": "Costing Sheet Macro Review",
+          "technology": "Excel",
+          "raisedBy": "Justin & Gavin",
+          "status": "monitoring",
+          "owner": "Mark",
+          "nextAction": "Continue monitoring and support as required."
+        },
+        {
+          "name": "Fabric Alerts",
+          "technology": "Microsoft Fabric",
+          "raisedBy": "David Bowers",
+          "status": "monitoring",
+          "owner": "Mark / Lourdes",
+          "nextAction": "Review alert behaviour and recommended configuration."
+        }
+      ],
+      "riskDetails": [
+        {
+          "name": "HB1 Margin data is not finalised in OLD UAT",
+          "category": "quality",
+          "likelihood": "high",
+          "impact": "high",
+          "mitigation": "Scheduled and Actual Margin fields are not yet finalised in the OLD UAT environment.",
+          "affected": "Scorecard; Gross Margin Report"
+        },
+        {
+          "name": "Insufficient Claims testing data",
+          "category": "quality",
+          "likelihood": "high",
+          "impact": "high",
+          "mitigation": "The available claims dataset is insufficient for complete testing and validation.",
+          "affected": "MMM Report; Scorecard; Gross Margin Report; SPG Maintenance Report"
+        }
       ]
     }
   ]
