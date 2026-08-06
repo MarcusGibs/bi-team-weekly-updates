@@ -707,6 +707,132 @@ function removePriority(btn) {
   btn.parentElement.remove();
 }
 
+function getNextWeekNumber() {
+  if (!updatesData.updates || updatesData.updates.length === 0) {
+    return 'W1';
+  }
+  // Get the most recent update (first in array)
+  const latestUpdate = updatesData.updates[0];
+  const weekMatch = latestUpdate.week.match(/W(\d+)/);
+  if (weekMatch) {
+    const nextWeekNum = parseInt(weekMatch[1]) + 1;
+    return `W${nextWeekNum}`;
+  }
+  return 'W1';
+}
+
+function preloadPreviousWeek() {
+  if (!updatesData.updates || updatesData.updates.length === 0) {
+    return; // No previous data to load
+  }
+
+  const previousUpdate = updatesData.updates[0]; // Most recent update
+  const nextWeek = getNextWeekNumber();
+  const nextYear = previousUpdate.year; // Keep same year (user can change if needed)
+
+  // Auto-fill form with previous week's data
+  document.getElementById('week').value = nextWeek;
+  document.getElementById('year').value = nextYear;
+  document.getElementById('dateRange').value = ''; // User needs to update this
+  document.getElementById('status').value = previousUpdate.status;
+  document.getElementById('title').value = `BI Team Weekly Update — ${nextWeek}`;
+  document.getElementById('summary').value = previousUpdate.summary;
+  document.getElementById('executiveSummary').value = previousUpdate.executiveSummary || '';
+  document.getElementById('projects').value = previousUpdate.projects;
+  document.getElementById('adHoc').value = previousUpdate.adHoc;
+  document.getElementById('risks').value = previousUpdate.risks;
+
+  // Load priorities
+  const priorityList = document.getElementById('priorityList');
+  priorityList.innerHTML = '';
+  (previousUpdate.priorities || []).forEach((priority, i) => {
+    const item = document.createElement('div');
+    item.className = 'priority-item';
+    item.innerHTML = `
+      <input type="text" class="priority-input" value="${priority}" placeholder="Priority ${i + 1}">
+      <button type="button" class="btn-small btn-remove" onclick="removePriority(this)">Remove</button>
+    `;
+    priorityList.appendChild(item);
+  });
+
+  // Load HB1 projects
+  document.getElementById('hb1ProjectsList').innerHTML = '';
+  (previousUpdate.hb1Projects || []).forEach(() => {
+    addProject('hb1');
+  });
+  const hb1Cards = document.querySelectorAll('#hb1ProjectsList .project-card');
+  (previousUpdate.hb1Projects || []).forEach((proj, i) => {
+    const card = hb1Cards[i];
+    card.querySelector('.project-name').value = proj.name;
+    card.querySelector('.project-tech').value = proj.technology;
+    card.querySelector('.project-owner').value = proj.owner;
+    if (proj.stages) {
+      card.querySelector('.stage-scoping').checked = proj.stages.scoping;
+      card.querySelector('.stage-development').checked = proj.stages.development;
+      card.querySelector('.stage-internal').checked = proj.stages.internalTesting;
+      card.querySelector('.stage-external').checked = proj.stages.externalTesting;
+      card.querySelector('.stage-uat').checked = proj.stages.uat;
+      card.querySelector('.stage-hypercare').checked = proj.stages.hypercare;
+    }
+    card.querySelector('.project-update').value = proj.thisWeek || '';
+    card.querySelector('.project-next').value = proj.nextAction || '';
+    card.querySelector('.project-forecast').value = proj.forecast || '';
+  });
+
+  // Load other projects
+  document.getElementById('otherProjectsList').innerHTML = '';
+  (previousUpdate.otherProjects || []).forEach(() => {
+    addProject('other');
+  });
+  const otherCards = document.querySelectorAll('#otherProjectsList .project-card');
+  (previousUpdate.otherProjects || []).forEach((proj, i) => {
+    const card = otherCards[i];
+    card.querySelector('.project-name').value = proj.name;
+    card.querySelector('.project-tech').value = proj.technology;
+    card.querySelector('.project-owner').value = proj.owner;
+    card.querySelector('.project-status').value = proj.status || 'progress';
+    card.querySelector('.project-update').value = proj.thisWeek || '';
+    card.querySelector('.project-next').value = proj.nextAction || '';
+    card.querySelector('.project-forecast').value = proj.forecast || '';
+  });
+
+  // Load ad hoc requests
+  document.getElementById('adHocList').innerHTML = '';
+  (previousUpdate.adHocRequests || []).forEach(() => {
+    addAdHoc();
+  });
+  const adHocCards = document.querySelectorAll('#adHocList .project-card');
+  (previousUpdate.adHocRequests || []).forEach((req, i) => {
+    const card = adHocCards[i];
+    card.querySelector('.adhoc-name').value = req.name;
+    card.querySelector('.adhoc-tech').value = req.technology || '';
+    card.querySelector('.adhoc-raised').value = req.raisedBy || '';
+    card.querySelector('.adhoc-status').value = req.status || 'monitoring';
+    card.querySelector('.adhoc-owner').value = req.owner || '';
+    card.querySelector('.adhoc-next').value = req.nextAction || '';
+  });
+
+  // Load risks
+  document.getElementById('risksList').innerHTML = '';
+  (previousUpdate.riskDetails || []).forEach(() => {
+    addRisk();
+  });
+  const riskCards = document.querySelectorAll('#risksList .project-card');
+  (previousUpdate.riskDetails || []).forEach((risk, i) => {
+    const card = riskCards[i];
+    card.querySelector('.risk-name').value = risk.name;
+    card.querySelector('.risk-category').value = risk.category || 'quality';
+    card.querySelector('.risk-likelihood').value = risk.likelihood || 'medium';
+    card.querySelector('.risk-impact').value = risk.impact || 'medium';
+    card.querySelector('.risk-mitigation').value = risk.mitigation || '';
+    card.querySelector('.risk-affected').value = risk.affected || '';
+  });
+
+  // Update form title
+  document.getElementById('formTitle').textContent = `Create ${nextWeek} (Pre-loaded from ${previousUpdate.week})`;
+  showAlert(`Form pre-loaded with ${previousUpdate.week} data. Update the Date Range and modify as needed.`, 'info');
+}
+
 function editUpdate(index) {
   const update = updatesData.updates[index];
   document.getElementById('editIndex').value = index;
@@ -820,18 +946,15 @@ function deleteUpdate(index) {
 function resetForm() {
   document.getElementById('updateForm').reset();
   document.getElementById('editIndex').value = '';
-  document.getElementById('formTitle').textContent = 'Add New Weekly Update';
   const priorityList = document.getElementById('priorityList');
-  priorityList.innerHTML = `
-    <div class="priority-item">
-      <input type="text" class="priority-input" placeholder="Priority 1">
-      <button type="button" class="btn-small btn-remove" onclick="removePriority(this)">Remove</button>
-    </div>
-  `;
+  priorityList.innerHTML = '';
   document.getElementById('hb1ProjectsList').innerHTML = '';
   document.getElementById('otherProjectsList').innerHTML = '';
   document.getElementById('adHocList').innerHTML = '';
   document.getElementById('risksList').innerHTML = '';
+  
+  // After reset, automatically pre-load previous week's data
+  setTimeout(() => preloadPreviousWeek(), 100);
 }
 
 function showAlert(message, type = 'info') {
@@ -954,7 +1077,10 @@ function downloadJSON() {
 }
 
 // Initialize
-loadUpdates();
+loadUpdates().then(() => {
+  // After loading existing updates, pre-load form with next week's data
+  preloadPreviousWeek();
+});
 </script>
 </body>
 </html>
