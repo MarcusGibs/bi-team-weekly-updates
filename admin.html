@@ -759,12 +759,11 @@ function preloadPreviousWeek() {
 
   // Load HB1 projects
   document.getElementById('hb1ProjectsList').innerHTML = '';
-  (previousUpdate.hb1Projects || []).forEach(() => {
-    addProject('hb1');
-  });
-  const hb1Cards = document.querySelectorAll('#hb1ProjectsList .project-card');
   (previousUpdate.hb1Projects || []).forEach((proj, i) => {
-    const card = hb1Cards[i];
+    addProject('hb1');
+    // Fill immediately after adding
+    const list = document.getElementById('hb1ProjectsList');
+    const card = list.children[list.children.length - 1];
     card.querySelector('.project-name').value = proj.name;
     card.querySelector('.project-tech').value = proj.technology;
     card.querySelector('.project-owner').value = proj.owner;
@@ -783,12 +782,11 @@ function preloadPreviousWeek() {
 
   // Load other projects
   document.getElementById('otherProjectsList').innerHTML = '';
-  (previousUpdate.otherProjects || []).forEach(() => {
-    addProject('other');
-  });
-  const otherCards = document.querySelectorAll('#otherProjectsList .project-card');
   (previousUpdate.otherProjects || []).forEach((proj, i) => {
-    const card = otherCards[i];
+    addProject('other');
+    // Fill immediately after adding
+    const list = document.getElementById('otherProjectsList');
+    const card = list.children[list.children.length - 1];
     card.querySelector('.project-name').value = proj.name;
     card.querySelector('.project-tech').value = proj.technology;
     card.querySelector('.project-owner').value = proj.owner;
@@ -800,12 +798,11 @@ function preloadPreviousWeek() {
 
   // Load ad hoc requests
   document.getElementById('adHocList').innerHTML = '';
-  (previousUpdate.adHocRequests || []).forEach(() => {
-    addAdHoc();
-  });
-  const adHocCards = document.querySelectorAll('#adHocList .project-card');
   (previousUpdate.adHocRequests || []).forEach((req, i) => {
-    const card = adHocCards[i];
+    addAdHoc();
+    // Fill immediately after adding
+    const list = document.getElementById('adHocList');
+    const card = list.children[list.children.length - 1];
     card.querySelector('.adhoc-name').value = req.name;
     card.querySelector('.adhoc-tech').value = req.technology || '';
     card.querySelector('.adhoc-raised').value = req.raisedBy || '';
@@ -816,12 +813,11 @@ function preloadPreviousWeek() {
 
   // Load risks
   document.getElementById('risksList').innerHTML = '';
-  (previousUpdate.riskDetails || []).forEach(() => {
-    addRisk();
-  });
-  const riskCards = document.querySelectorAll('#risksList .project-card');
   (previousUpdate.riskDetails || []).forEach((risk, i) => {
-    const card = riskCards[i];
+    addRisk();
+    // Fill immediately after adding
+    const list = document.getElementById('risksList');
+    const card = list.children[list.children.length - 1];
     card.querySelector('.risk-name').value = risk.name;
     card.querySelector('.risk-category').value = risk.category || 'quality';
     card.querySelector('.risk-likelihood').value = risk.likelihood || 'medium';
