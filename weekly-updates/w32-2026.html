@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BI Team Weekly Update — W32</title>
+<style>
+:root {
+  --navy:#10233f;
+  --navy2:#17365f;
+  --teal:#0f766e;
+  --blue:#2563eb;
+  --bg:#eef3f8;
+  --panel:#fff;
+  --line:#dbe3ec;
+  --text:#172033;
+  --muted:#667085;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:
+    radial-gradient(circle at 88% 5%, rgba(37,99,235,.11), transparent 26rem),
+    radial-gradient(circle at 4% 30%, rgba(15,118,110,.08), transparent 22rem),
+    var(--bg);
+  color:var(--text);
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+}
+.shell { max-width:1600px; margin:0 auto; padding:24px; }
+.hero {
+  padding:32px 36px;
+  border-radius:22px;
+  color:white;
+  background:linear-gradient(135deg,#0b1f3a 0%,#17365f 58%,#0f766e 135%);
+  box-shadow:0 22px 60px rgba(15,35,63,.18);
+}
+.hero-row { display:flex; justify-content:space-between; gap:24px; align-items:flex-start; }
+.eyebrow { font-size:11px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:#bae6fd; }
+h1 { margin:9px 0 7px; font-size:42px; line-height:1.1; letter-spacing:-.03em; }
+.hero p { max-width:780px; margin:0; line-height:1.6; color:rgba(255,255,255,.78); }
+.week-box {
+  min-width:220px;
+  padding:17px 19px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:16px;
+  background:rgba(255,255,255,.10);
+}
+.week-box small { display:block; text-transform:uppercase; letter-spacing:.1em; color:#bae6fd; font-weight:800; }
+.week-box strong { display:block; font-size:27px; margin:5px 0 3px; }
+.week-box span { font-size:13px; color:rgba(255,255,255,.75); }
+.actions { margin-top:18px; display:flex; gap:9px; }
+.btn {
+  border:0; border-radius:10px; padding:10px 14px; cursor:pointer; font-weight:750;
+  background:white; color:var(--navy);
+}
+.btn.secondary { color:white; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); }
+
+.kpis {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:13px;
+  margin:17px 0;
+}
+.kpi {
+  border:1px solid rgba(255,255,255,.9);
+  background:rgba(255,255,255,.94);
+  border-radius:16px;
+  padding:18px 19px;
+  box-shadow:0 8px 28px rgba(15,35,63,.06);
+}
+.kpi-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; font-weight:800; }
+.kpi-value { margin-top:5px; font-size:27px; font-weight:850; color:var(--navy); }
+.kpi-note { margin-top:3px; font-size:11px; color:var(--muted); }
+.status-amber { color:#92400e; }
+.status-amber::before {
+  content:"";
+  display:inline-block;
+  width:10px; height:10px; border-radius:50%;
+  margin-right:9px;
+  background:#f59e0b;
+  box-shadow:0 0 0 5px #fef3c7;
+  vertical-align:2px;
+}
+
+.summary {
+  display:grid;
+  grid-template-columns:1.4fr .9fr;
+  gap:23px;
+  padding:22px 24px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:white;
+  box-shadow:0 9px 30px rgba(15,35,63,.05);
+}
+.summary h2,.section-head h2 { margin:0; color:var(--navy); letter-spacing:-.02em; }
+.summary p { margin:9px 0 0; line-height:1.65; color:#475569; }
+.priority-list { display:grid; gap:8px; }
+.priority {
+  display:flex; align-items:flex-start; gap:10px;
+  padding:10px 12px;
+  border-radius:11px;
+  background:#fff7ed;
+  color:#7c2d12;
+  border:1px solid #fed7aa;
+  font-size:12px;
+  line-height:1.45;
+}
+.priority b {
+  display:grid; place-items:center;
+  flex:0 0 23px; height:23px;
+  border-radius:7px;
+  background:#ffedd5; color:#c2410c;
+}
+
+.section { margin-top:22px; }
+.section-head {
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-end;
+  margin-bottom:10px;
+}
+.section-head p { margin:4px 0 0; font-size:12px; color:var(--muted); }
+.section-count {
+  padding:7px 10px;
+  border-radius:999px;
+  background:#e0f2fe;
+  color:#075985;
+  font-size:11px;
+  font-weight:800;
+}
+.table-panel {
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:white;
+  box-shadow:0 9px 30px rgba(15,35,63,.055);
+  overflow:hidden;
+}
+.table-wrap { overflow-x:auto; }
+table { width:100%; border-collapse:separate; border-spacing:0; }
+.portfolio-table { min-width:1500px; }
+.compact-table { min-width:900px; }
+th {
+  position:sticky;
+  top:0;
+  z-index:1;
+  padding:11px 10px;
+  text-align:left;
+  vertical-align:bottom;
+  background:#f8fafc;
+  color:#536174;
+  border-bottom:1px solid var(--line);
+  border-right:1px solid #edf1f5;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.055em;
+  white-space:nowrap;
+}
+th:last-child,td:last-child { border-right:0; }
+td {
+  padding:11px 10px;
+  vertical-align:top;
+  border-bottom:1px solid #edf1f5;
+  border-right:1px solid #edf1f5;
+  color:#475569;
+  font-size:11px;
+  line-height:1.42;
+  background:#fff;
+}
+tbody tr:last-child td { border-bottom:0; }
+tbody tr:nth-child(even) td { background:#fbfdff; }
+tbody tr:hover td { background:#f5faff; }
+.project-name {
+  min-width:205px;
+  font-weight:800;
+  color:var(--navy);
+}
+.owner { min-width:105px; font-weight:700; color:#334155; }
+.update { min-width:260px; }
+.next-action { background:#f5fffc !important; }
+.forecast { min-width:145px; font-weight:800; color:#0f4c81; }
+.badge {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:54px;
+  padding:5px 7px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:850;
+  white-space:nowrap;
+}
+.badge.done { background:#dcfce7; color:#166534; }
+.badge.progress { background:#dbeafe; color:#1d4ed8; }
+.badge.next { background:#fef3c7; color:#92400e; }
+.badge.pending { background:#f1f5f9; color:#475569; }
+.badge.paused { background:#fee2e2; color:#991b1b; }
+.badge.monitoring { background:#ffedd5; color:#9a3412; }
+.badge.initiative { background:#ede9fe; color:#6d28d9; }
+.badge.blank { background:transparent; color:#94a3b8; min-width:20px; }
+.table-note {
+  padding:11px 14px;
+  border-top:1px solid var(--line);
+  background:#f8fafc;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.risk-table .badge.high { background:#fee2e2; color:#991b1b; }
+.footer {
+  margin:20px 0 6px;
+  text-align:center;
+  color:#64748b;
+  font-size:10px;
+}
+.legend {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-top:7px;
+}
+.legend span { display:flex; align-items:center; gap:5px; }
+.legend i { width:7px; height:7px; border-radius:50%; }
+
+@media (max-width:1050px) {
+  .kpis { grid-template-columns:repeat(3,1fr); }
+  .summary { grid-template-columns:1fr; }
+}
+@media (max-width:700px) {
+  .shell { padding:11px; }
+  .hero { padding:24px 20px; border-radius:17px; }
+  .hero-row,.section-head { flex-direction:column; align-items:flex-start; }
+  h1 { font-size:32px; }
+  .week-box { width:100%; min-width:0; }
+  .kpis { grid-template-columns:1fr 1fr; }
+}
+@media print {
+  @page { size:A4 landscape; margin:7mm; }
+  body { background:white; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .shell { max-width:none; padding:0; }
+  .hero { padding:18px 22px; border-radius:10px; box-shadow:none; }
+  h1 { font-size:27px; }
+  .actions { display:none; }
+  .kpis { gap:6px; margin:7px 0; }
+  .kpi { padding:9px 10px; box-shadow:none; border-radius:9px; }
+  .kpi-value { font-size:18px; }
+  .summary { padding:12px; box-shadow:none; }
+  .section { margin-top:10px; }
+  .table-panel { box-shadow:none; border-radius:8px; break-inside:auto; }
+  .table-wrap { overflow:visible; }
+  .portfolio-table,.compact-table { min-width:0; table-layout:fixed; }
+  th { position:static; padding:5px 4px; font-size:6px; white-space:normal; }
+  td { padding:5px 4px; font-size:6.5px; line-height:1.25; }
+  .project-name,.owner,.update,.forecast { min-width:0; }
+  .badge { min-width:0; padding:3px 4px; font-size:6px; }
+  tr { break-inside:avoid; }
+  .section-head h2 { font-size:15px; }
+  .section-head p,.table-note { font-size:7px; }
+}
+
+.risk-table thead th {
+  background:#fff1f2;
+  color:#9f1239;
+  border-bottom:1px solid #fecdd3;
+}
+.risk-table td {
+  background:#fffafa;
+  border-color:#ffe4e6;
+}
+.risk-table tbody tr:nth-child(even) td {
+  background:#fff1f2;
+}
+.risk-table tbody tr:hover td {
+  background:#ffe4e6;
+}
+.risk-table .project-name {
+  color:#9f1239;
+}
+.risk-table .badge.blank {
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+
+/* Readability improvements */
+.table-wrap {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.portfolio-table {
+  min-width: 2050px;
+}
+
+.compact-table {
+  min-width: 1100px;
+}
+
+th {
+  padding: 14px 13px;
+  font-size: 11px;
+  line-height: 1.35;
+  letter-spacing: .045em;
+}
+
+td {
+  padding: 14px 13px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.project-name {
+  min-width: 245px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.owner {
+  min-width: 125px;
+  font-size: 13px;
+}
+
+.update {
+  min-width: 350px;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.forecast {
+  min-width: 180px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.badge {
+  min-width: 68px;
+  padding: 7px 10px;
+  font-size: 10.5px;
+  line-height: 1.2;
+}
+
+.section-head h2 {
+  font-size: 24px;
+}
+
+.section-head p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.table-note {
+  padding: 13px 16px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.summary p {
+  font-size: 14px;
+}
+
+.priority {
+  font-size: 13.5px;
+  line-height: 1.55;
+  padding: 12px 14px;
+}
+
+.priority b {
+  flex-basis: 27px;
+  height: 27px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.table-panel.reading-large th {
+  font-size: 12px;
+  padding: 16px 14px;
+}
+
+.table-panel.reading-large td {
+  font-size: 14px;
+  padding: 16px 14px;
+}
+
+.table-panel.reading-large .project-name {
+  font-size: 15px;
+}
+
+.table-panel.reading-large .update {
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+.table-panel.reading-large .badge {
+  font-size: 11.5px;
+  padding: 8px 11px;
+}
+
+.table-panel.reading-compact th {
+  font-size: 10px;
+  padding: 10px 9px;
+}
+
+.table-panel.reading-compact td {
+  font-size: 11px;
+  padding: 10px 9px;
+}
+
+.table-panel.reading-compact .project-name {
+  font-size: 12px;
+}
+
+.table-panel.reading-compact .update {
+  font-size: 11.5px;
+}
+
+.table-panel.reading-compact .badge {
+  font-size: 9px;
+  padding: 5px 7px;
+}
+
+@media (min-width: 900px) {
+  .portfolio-table th:first-child,
+  .portfolio-table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+  }
+
+  .portfolio-table th:nth-child(2),
+  .portfolio-table td:nth-child(2) {
+    position: sticky;
+    left: 245px;
+    z-index: 3;
+  }
+
+  .portfolio-table th:first-child,
+  .portfolio-table th:nth-child(2) {
+    background: #eef5fb;
+    z-index: 5;
+  }
+
+  .portfolio-table td:first-child,
+  .portfolio-table td:nth-child(2) {
+    background: #ffffff;
+  }
+
+  .portfolio-table tbody tr:nth-child(even) td:first-child,
+  .portfolio-table tbody tr:nth-child(even) td:nth-child(2) {
+    background: #fbfdff;
+  }
+
+  .portfolio-table tbody tr:hover td:first-child,
+  .portfolio-table tbody tr:hover td:nth-child(2) {
+    background: #f5faff;
+  }
+}
+
+@media print {
+  
+
+  .portfolio-table,
+  .compact-table {
+    min-width: 0;
+  }
+
+  th {
+    font-size: 7.5px;
+    padding: 6px 5px;
+  }
+
+  td {
+    font-size: 8px;
+    padding: 6px 5px;
+  }
+
+  .project-name {
+    font-size: 8.5px;
+  }
+
+  .update {
+    font-size: 8px;
+  }
+
+  .badge {
+    font-size: 7px;
+    padding: 3px 5px;
+  }
+}
+
+
+.project-name {
+  font-weight: 400 !important;
+}
+
+
+.badge,
+.status-amber,
+.section-count {
+  font-weight: 400 !important;
+}
+
+
+/* Permanent large, readable table layout */
+.table-panel th {
+  font-size: 12px;
+  padding: 16px 14px;
+}
+
+.table-panel td {
+  font-size: 14px;
+  padding: 16px 14px;
+}
+
+.table-panel .project-name {
+  font-size: 15px;
+  font-weight: 400 !important;
+}
+
+.table-panel .update {
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+.table-panel .badge {
+  font-size: 11.5px;
+  padding: 8px 11px;
+  font-weight: 400 !important;
+}
+
+
+
+
+
+
+
+/* Dynamic owner-to-task network */
+.network-panel {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 9px 30px rgba(15,35,63,.055);
+  overflow: hidden;
+}
+
+.network-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  background: #f8fafc;
+}
+
+.network-filter-group,
+.network-action-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.network-toolbar-label {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 2px;
+}
+
+.network-filter,
+.network-action {
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #334155;
+  padding: 7px 11px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.network-filter.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #ffffff;
+}
+
+.network-action:hover,
+.network-filter:hover {
+  background: #f1f5f9;
+}
+
+.network-filter.active:hover {
+  background: var(--navy2);
+}
+
+.network-canvas-wrap {
+  position: relative;
+  height: 820px;
+  min-height: 680px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(219,234,254,.7), transparent 24rem),
+    radial-gradient(circle at 80% 70%, rgba(220,252,231,.58), transparent 23rem),
+    #fbfdff;
+  overflow: hidden;
+}
+
+#ownerTaskNetwork {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+.network-edge {
+  stroke: #cbd5e1;
+  stroke-width: 1.4;
+  stroke-opacity: .75;
+  transition: stroke .15s ease, stroke-opacity .15s ease, stroke-width .15s ease;
+}
+
+.network-edge.shared {
+  stroke: #94a3b8;
+  stroke-dasharray: 4 4;
+}
+
+.network-node {
+  cursor: grab;
+}
+
+.network-node:active {
+  cursor: grabbing;
+}
+
+.network-node circle {
+  stroke: rgba(15,35,63,.18);
+  stroke-width: 1.4;
+  transition: opacity .15s ease, stroke-width .15s ease;
+}
+
+.network-node.owner circle {
+  stroke-width: 2.4;
+}
+
+.network-node text {
+  pointer-events: none;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  fill: #10233f;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+.network-node .node-name {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.network-node.owner .node-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.network-node .node-sub {
+  font-size: 8px;
+  fill: #64748b;
+}
+
+.network-node.dimmed,
+.network-edge.dimmed {
+  opacity: .12;
+}
+
+.network-node.highlighted circle {
+  stroke: #0f766e;
+  stroke-width: 3;
+}
+
+.network-edge.highlighted {
+  stroke: #0f766e;
+  stroke-width: 2.4;
+  stroke-opacity: 1;
+}
+
+.network-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.network-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.network-legend i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid rgba(15,35,63,.16);
+}
+
+.network-note {
+  padding: 11px 16px;
+  border-top: 1px solid var(--line);
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.network-tooltip {
+  position: absolute;
+  display: none;
+  z-index: 5;
+  max-width: 260px;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: rgba(15,35,63,.94);
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 1.45;
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .network-canvas-wrap {
+    height: 680px;
+  }
+
+  .network-toolbar {
+    align-items: flex-start;
+  }
+}
+
+@media print {
+  .network-panel {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .network-toolbar {
+    display: none;
+  }
+
+  .network-canvas-wrap {
+    height: 500px;
+    min-height: 500px;
+  }
+
+  .network-note {
+    font-size: 8px;
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="shell">
+  <a href="../updates.html" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;padding:10px 16px;background:white;color:#10233f;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;box-shadow:0 2px 8px rgba(15,35,63,.08);transition:all 0.2s ease;" onmouseover="this.style.transform='translateX(-4px)';this.style.boxShadow='0 4px 16px rgba(15,35,63,.12)'" onmouseout="this.style.transform='translateX(0)';this.style.boxShadow='0 2px 8px rgba(15,35,63,.08)'">
+    <span style="font-size:18px;">←</span> Back to Updates
+  </a>
+  <header class="hero">
+    <div class="hero-row">
+      <div>
+        <div class="eyebrow">Business Intelligence Team</div>
+        <h1>Weekly BI Team Update</h1>
+        <p>
+          Consolidated BI team tables covering HB1 integration, other projects,
+          ad hoc requests, initiatives, delivery stages, ownership, risks, and next actions.
+        </p>
+        <div class="actions">
+          <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+          <button class="btn secondary" onclick="document.getElementById('hb1').scrollIntoView()">View portfolio</button>
+        </div>
+      </div>
+      <div class="week-box">
+        <small>Reporting period</small>
+        <strong>W32</strong>
+        <span>3–7 August 2026</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">Management view</div>
+      <div class="kpi-value status-amber">Amber</div>
+      <div class="kpi-note">Testing dependencies require attention</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">HB1 workstreams</div>
+      <div class="kpi-value">9</div>
+      <div class="kpi-note">Core integration work</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Other projects</div>
+      <div class="kpi-value">2</div>
+      <div class="kpi-note">One active, one paused</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Ad hoc requests</div>
+      <div class="kpi-value">2</div>
+      <div class="kpi-note">Both under monitoring</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Active risks</div>
+      <div class="kpi-value">2</div>
+      <div class="kpi-note">Margin and claims test data</div>
+    </div>
+  </section>
+
+  <section class="summary">
+    <div>
+      <h2>Executive summary</h2>
+      <p>
+        The BI team update remains <strong>Amber</strong>. Scorecard, Mega Report and MMM Report continue through
+        internal and external testing, with the data-source transition from OLD UAT to the Training Environment
+        as the next major milestone. Development is progressing for the Indemnity Report and GP Calculator.
+        The Scheduling and Drafting Timeframe Report and OSB Tracker are moving from scoping toward development.
+        Gross Margin and SPG Maintenance remain pending and are exposed to the current margin and claims-data risks.
+      </p>
+    </div>
+    <div>
+      <h2>Immediate priorities</h2>
+      <div class="priority-list">
+        <div class="priority"><b>1</b><span>Prepare the OLD UAT to Training Environment data-source switch.</span></div>
+        <div class="priority"><b>2</b><span>Secure sufficient claims and margin testing data.</span></div>
+        <div class="priority"><b>3</b><span>Continue Indemnity, Scheduling, GP Calculator and OSB development.</span></div>
+        <div class="priority"><b>4</b><span>Draft the future intranet solution recommendation.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="hb1" class="section">
+    <div class="section-head">
+      <div>
+        <h2>HB1 Integration</h2>
+        <p>Delivery stage, ownership, weekly activity, next action, and forecast milestone.</p>
+      </div>
+      <span class="section-count">9 workstreams</span>
+    </div>
+<div class="table-panel">
+      <div class="table-wrap">
+        <table class="portfolio-table">
+          <thead>
+            <tr>
+              <th>Project / Workstream</th>
+              <th>Technology</th>
+              <th>Scoping</th>
+              <th>Development</th>
+              <th>Internal Testing</th>
+              <th>External Testing</th>
+              <th>UAT</th>
+              <th>Hypercare</th>
+              <th>Owner</th>
+              <th>This Week</th>
+              <th>Next Action</th>
+              <th>Forecast</th>
+            </tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td class="project-name">Scorecard</td>
+          <td>Power BI</td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge progress">In progress</span></td>
+          <td><span class="badge progress">In progress</span></td>
+          <td><span class="badge next">Next</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Mark</td>
+          <td class="update">Continued testing for jobs with Canceled and On Hold statuses, plus Responsibility and Done by Worker data elements.</td>
+          <td class="update next-action">Prepare for the data-source switch from OLD UAT to the Training Environment.</td>
+          <td class="forecast">TBC — UAT readiness</td>
+        </tr>
+        
+        <tr>
+          <td class="project-name">Mega Report</td>
+          <td>Power BI</td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge progress">In progress</span></td>
+          <td><span class="badge progress">In progress</span></td>
+          <td><span class="badge next">Next</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Roed</td>
+          <td class="update">Continued testing for jobs with Canceled and On Hold statuses, plus Responsibility and Done by Worker data elements.</td>
+          <td class="update next-action">Prepare for the data-source switch from OLD UAT to the Training Environment.</td>
+          <td class="forecast">TBC — UAT readiness</td>
+        </tr>
+        
+        <tr>
+          <td class="project-name">MMM Report</td>
+          <td>Power BI</td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge progress">In progress</span></td>
+          <td><span class="badge progress">In progress</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Roed / Lourdes</td>
+          <td class="update">Continued testing for jobs with Canceled and On Hold statuses, plus Responsibility and Done by Worker data elements.</td>
+          <td class="update next-action">Prepare for the data-source switch from OLD UAT to the Training Environment.</td>
+          <td class="forecast">TBC — testing completion</td>
+        </tr>
+        
+        <tr>
+          <td class="project-name">Indemnity Report</td>
+          <td>Power BI</td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge progress">In progress</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Lourdes</td>
+          <td class="update">Reviewed requirements and confirmed current data availability.</td>
+          <td class="update next-action">Continue development.</td>
+          <td class="forecast">TBC</td>
+        </tr>
+        
+        <tr>
+          <td class="project-name">Scheduling and Drafting Timeframe Report</td>
+          <td>Power BI</td>
+          <td><span class="badge progress">In progress</span></td>
+          <td><span class="badge next">Next</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Vanessa</td>
+          <td class="update">SQL script review is in progress.</td>
+          <td class="update next-action">Continue development.</td>
+          <td class="forecast">TBC — development start</td>
+        </tr>
+        
+        <tr>
+          <td class="project-name">Gross Margin Report</td>
+          <td>Power BI</td>
+          <td><span class="badge pending">Pending</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Lourdes / Mark</td>
+          <td class="update">No activity recorded for this reporting week.</td>
+          <td class="update next-action">Confirm scoping start and validate margin data readiness.</td>
+          <td class="forecast">TBC</td>
+        </tr>
+        
+        <tr>
+          <td class="project-name">SPG Maintenance Report</td>
+          <td>Power BI</td>
+          <td><span class="badge pending">Pending</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Lourdes / Mark</td>
+          <td class="update">No activity recorded for this reporting week.</td>
+          <td class="update next-action">Confirm scoping start and validate claims data readiness.</td>
+          <td class="forecast">TBC</td>
+        </tr>
+        
+        <tr>
+          <td class="project-name">GP Calculator</td>
+          <td>Power Apps / Power Automate</td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge progress">In progress</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Mark</td>
+          <td class="update">Reviewed requirements and data availability. Completed a process walkthrough with users.</td>
+          <td class="update next-action">Connect GP Calculator stages to HB1 and ask Gavin / Rein to upload a sample Costing Sheet.</td>
+          <td class="forecast">TBC — discovery dependency</td>
+        </tr>
+        
+        <tr>
+          <td class="project-name">OSB Tracker</td>
+          <td>Power Apps / Power Automate</td>
+          <td><span class="badge progress">In progress</span></td>
+          <td><span class="badge next">Next</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Roed</td>
+          <td class="update">Completed an initial review of the application codebase.</td>
+          <td class="update next-action">Continue development.</td>
+          <td class="forecast">TBC — development start</td>
+        </tr>
+        </tbody>
+        </table>
+      </div>
+      <div class="table-note">
+        Forecast is shown as TBC where the source tracker does not yet contain a confirmed completion week.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Other Projects</h2>
+        <p>Projects outside the core HB1 integration portfolio.</p>
+      </div>
+      <span class="section-count">2 projects</span>
+    </div>
+<div class="table-panel">
+      <div class="table-wrap">
+        <table class="portfolio-table">
+          <thead>
+            <tr>
+              <th>Project / Workstream</th>
+              <th>Technology</th>
+              <th>Scoping</th>
+              <th>Development</th>
+              <th>Internal Testing</th>
+              <th>External Testing</th>
+              <th>UAT</th>
+              <th>Hypercare</th>
+              <th>Owner</th>
+              <th>This Week</th>
+              <th>Next Action</th>
+              <th>Forecast</th>
+            </tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td class="project-name">Gasco Call-Up and Inspection Report</td>
+          <td>Power BI</td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge paused">Paused</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Roed</td>
+          <td class="update">The initiative remains paused based on client advice.</td>
+          <td class="update next-action">Resume only after client confirmation.</td>
+          <td class="forecast">Paused</td>
+        </tr>
+        
+        <tr>
+          <td class="project-name">Planning for the Future — Intranet</td>
+          <td>TBA</td>
+          <td><span class="badge done">Done</span></td>
+          <td><span class="badge next">Next</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td><span class="badge blank">—</span></td>
+          <td class="owner">Mark / Vanessa</td>
+          <td class="update">Reviewed and assessed current intranet usage.</td>
+          <td class="update next-action">Draft the solution recommendation.</td>
+          <td class="forecast">TBC — recommendation draft</td>
+        </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Ad Hoc Requests</h2>
+        <p>Operational requests and monitoring activities raised by stakeholders.</p>
+      </div>
+      <span class="section-count">2 requests</span>
+    </div>
+<div class="table-panel">
+      <div class="table-wrap">
+        <table class="compact-table">
+          <thead>
+            <tr>
+              <th>Request</th>
+              <th>Technology</th>
+              <th>Raised By</th>
+              <th>Status</th>
+              <th>Owner</th>
+              <th>Next Action</th>
+            </tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td class="project-name">Costing Sheet Macro Review</td>
+        <td>Excel</td>
+        <td>Justin &amp; Gavin</td>
+        <td><span class="badge monitoring">Monitoring</span></td>
+        <td class="owner">Mark</td>
+        <td class="update next-action">Continue monitoring and support as required.</td>
+      </tr>
+    
+      <tr>
+        <td class="project-name">Fabric Alerts</td>
+        <td>Microsoft Fabric</td>
+        <td>David Bowers</td>
+        <td><span class="badge monitoring">Monitoring</span></td>
+        <td class="owner">Mark / Lourdes</td>
+        <td class="update next-action">Review alert behaviour and recommended configuration.</td>
+      </tr>
+    </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>BI Team Owner and Task Network</h2>
+        <p>Animated relationship graph connecting each owner to their assigned projects, requests, and initiatives. Shared tasks connect to multiple owners.</p>
+      </div>
+      <span class="section-count">Interactive network</span>
+    </div>
+
+    <div class="network-panel">
+      <div class="network-toolbar">
+        <div class="network-filter-group">
+          <span class="network-toolbar-label">Show:</span>
+          <button class="network-filter active" data-network-filter="All" type="button">All</button>
+          <button class="network-filter" data-network-filter="HB1 Integration" type="button">HB1</button>
+          <button class="network-filter" data-network-filter="Other Projects" type="button">Other projects</button>
+          <button class="network-filter" data-network-filter="Ad Hoc Requests" type="button">Ad hoc</button>
+          <button class="network-filter" data-network-filter="Other Initiatives" type="button">Initiatives</button>
+        </div>
+
+        <div class="network-action-group">
+          <button class="network-action" id="networkPause" type="button">Pause movement</button>
+          <button class="network-action" id="networkReset" type="button">Reset layout</button>
+        </div>
+      </div>
+
+      <div class="network-canvas-wrap">
+        <svg id="ownerTaskNetwork" role="img" aria-label="Animated network showing owners connected to assigned portfolio tasks"></svg>
+        <div class="network-tooltip" id="networkTooltip" aria-live="polite"></div>
+      </div>
+
+      <div class="network-legend">
+        <span><i style="background:#bfdbfe"></i>Owner</span>
+        <span><i style="background:#dcfce7"></i>HB1 integration</span>
+        <span><i style="background:#fef3c7"></i>Other project</span>
+        <span><i style="background:#ffedd5"></i>Ad hoc request</span>
+        <span><i style="background:#ede9fe"></i>Other initiative</span>
+        <span><span style="display:inline-block;width:22px;border-top:2px dashed #94a3b8"></span>Shared ownership</span>
+      </div>
+
+      <div class="network-note">
+        Drag any circle to reposition it. Hover over an owner or task to highlight its direct relationships.
+        Circle size reflects the number of connections for owners and is fixed for tasks. The graph moves gently while active and keeps wider spacing between nodes.
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Risks and Dependencies</h2>
+        <p>Issues that may affect testing, sequencing, or delivery forecasts.</p>
+      </div>
+      <span class="section-count">2 active risks</span>
+    </div>
+<div class="table-panel">
+      <div class="table-wrap">
+        <table class="compact-table risk-table">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Risk</th>
+              <th>Impact</th>
+              <th>Affected Reports</th>
+            </tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td><span class="badge blank">High</span></td>
+        <td class="project-name">HB1 Margin data is not finalised in OLD UAT</td>
+        <td class="update">Scheduled and Actual Margin fields are not yet finalised in the OLD UAT environment.</td>
+        <td class="update">Scorecard; Gross Margin Report</td>
+      </tr>
+    
+      <tr>
+        <td><span class="badge blank">High</span></td>
+        <td class="project-name">Insufficient Claims testing data</td>
+        <td class="update">The available claims dataset is insufficient for complete testing and validation.</td>
+        <td class="update">MMM Report; Scorecard; Gross Margin Report; SPG Maintenance Report</td>
+      </tr>
+    </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Other Initiatives</h2>
+        <p>Innovation, proof-of-concept, and future capability initiatives.</p>
+      </div>
+      <span class="section-count">1 initiative</span>
+    </div>
+<div class="table-panel">
+      <div class="table-wrap">
+        <table class="compact-table">
+          <thead>
+            <tr>
+              <th>Initiative</th>
+              <th>Technology</th>
+              <th>Owner</th>
+              <th>Status</th>
+              <th>Next Action</th>
+              <th>Forecast</th>
+            </tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td class="project-name">AI POC — Query Builder</td>
+        <td>Copilot</td>
+        <td class="owner">Mark</td>
+        <td><span class="badge initiative">Initiative</span></td>
+        <td class="update next-action">Define the proof-of-concept scope, KPI catalogue, sample data, and initial user questions.</td>
+        <td class="forecast">TBC — POC planning</td>
+      </tr>
+    </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div>BI Team Weekly Update • W32 • 3–7 August 2026</div>
+    <div class="legend">
+      <span><i style="background:#22c55e"></i>Done</span>
+      <span><i style="background:#2563eb"></i>In progress</span>
+      <span><i style="background:#f59e0b"></i>Next</span>
+      <span><i style="background:#64748b"></i>Pending</span>
+      <span><i style="background:#ef4444"></i>Paused</span>
+    </div>
+  </footer>
+</div>
+
+
+
+
+<script>
+(() => {
+  const networkData = {"owners": ["Mark", "Roed", "Lourdes", "Vanessa"], "tasks": [{"name": "Scorecard", "category": "HB1 Integration", "owners": ["Mark"], "status": "Testing"}, {"name": "Mega Report", "category": "HB1 Integration", "owners": ["Roed"], "status": "Testing"}, {"name": "MMM Report", "category": "HB1 Integration", "owners": ["Roed", "Lourdes"], "status": "Testing"}, {"name": "Indemnity Report", "category": "HB1 Integration", "owners": ["Lourdes"], "status": "Development"}, {"name": "Scheduling & Drafting Timeframe", "category": "HB1 Integration", "owners": ["Vanessa"], "status": "Scoping"}, {"name": "Gross Margin Report", "category": "HB1 Integration", "owners": ["Lourdes", "Mark"], "status": "Pending"}, {"name": "SPG Maintenance Report", "category": "HB1 Integration", "owners": ["Lourdes", "Mark"], "status": "Pending"}, {"name": "GP Calculator", "category": "HB1 Integration", "owners": ["Mark"], "status": "Development"}, {"name": "OSB Tracker", "category": "HB1 Integration", "owners": ["Roed"], "status": "Scoping"}, {"name": "Gasco Call-Up & Inspection", "category": "Other Projects", "owners": ["Roed"], "status": "Paused"}, {"name": "Future Intranet", "category": "Other Projects", "owners": ["Mark", "Vanessa"], "status": "Scoping"}, {"name": "Costing Sheet Macro Review", "category": "Ad Hoc Requests", "owners": ["Mark"], "status": "Monitoring"}, {"name": "Fabric Alerts", "category": "Ad Hoc Requests", "owners": ["Mark", "Lourdes"], "status": "Monitoring"}, {"name": "AI POC \u2014 Query Builder", "category": "Other Initiatives", "owners": ["Mark"], "status": "Initiative"}]};
+  const svg = document.getElementById('ownerTaskNetwork');
+  if (!svg) return;
+
+  const tooltip = document.getElementById('networkTooltip');
+  const pauseButton = document.getElementById('networkPause');
+  const resetButton = document.getElementById('networkReset');
+  const filterButtons = document.querySelectorAll('[data-network-filter]');
+  const ns = 'http://www.w3.org/2000/svg';
+
+  const categoryColors = {
+    'HB1 Integration': '#dcfce7',
+    'Other Projects': '#fef3c7',
+    'Ad Hoc Requests': '#ffedd5',
+    'Other Initiatives': '#ede9fe'
+  };
+
+  let width = 1000;
+  let height = 620;
+  let animationId = null;
+  let paused = false;
+  let activeFilter = 'All';
+  let dragging = null;
+  let dragPointerId = null;
+  let lastTime = performance.now();
+
+  const degree = {};
+  networkData.owners.forEach(owner => degree[owner] = 0);
+  networkData.tasks.forEach(task => task.owners.forEach(owner => degree[owner]++));
+
+  const nodes = [
+    ...networkData.owners.map((name, index) => ({
+      id: `owner:${name}`,
+      name,
+      type: 'owner',
+      category: 'Owner',
+      radius: 35 + Math.min(degree[name] * 3.6, 27),
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+      fixed: false,
+      index
+    })),
+    ...networkData.tasks.map((task, index) => ({
+      id: `task:${task.name}`,
+      name: task.name,
+      type: 'task',
+      category: task.category,
+      status: task.status,
+      owners: task.owners,
+      radius: task.owners.length > 1 ? 26 : 22,
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+      fixed: false,
+      index
+    }))
+  ];
+
+  const nodeMap = new Map(nodes.map(node => [node.id, node]));
+  const links = [];
+  networkData.tasks.forEach(task => {
+    task.owners.forEach(owner => {
+      links.push({
+        source: nodeMap.get(`owner:${owner}`),
+        target: nodeMap.get(`task:${task.name}`),
+        shared: task.owners.length > 1
+      });
+    });
+  });
+
+  const edgeLayer = document.createElementNS(ns, 'g');
+  const nodeLayer = document.createElementNS(ns, 'g');
+  svg.append(edgeLayer, nodeLayer);
+
+  const edgeElements = links.map(link => {
+    const line = document.createElementNS(ns, 'line');
+    line.setAttribute('class', `network-edge${link.shared ? ' shared' : ''}`);
+    edgeLayer.appendChild(line);
+    link.element = line;
+    return line;
+  });
+
+  const nodeElements = nodes.map(node => {
+    const group = document.createElementNS(ns, 'g');
+    group.setAttribute('class', `network-node ${node.type}`);
+    group.dataset.nodeId = node.id;
+
+    const circle = document.createElementNS(ns, 'circle');
+    circle.setAttribute('r', node.radius);
+    circle.setAttribute(
+      'fill',
+      node.type === 'owner' ? '#bfdbfe' : categoryColors[node.category]
+    );
+
+    const nameText = document.createElementNS(ns, 'text');
+    nameText.setAttribute('class', 'node-name');
+
+    const lines = splitLabel(node.name, node.type === 'owner' ? 14 : 17);
+    const maxLines = node.type === 'owner' ? 1 : 3;
+    lines.slice(0, maxLines).forEach((lineText, lineIndex) => {
+      const tspan = document.createElementNS(ns, 'tspan');
+      tspan.setAttribute('x', '0');
+      tspan.setAttribute('dy', lineIndex === 0 ? `${-(Math.min(lines.length, maxLines)-1) * 0.55}em` : '1.1em');
+      tspan.textContent = lineText;
+      nameText.appendChild(tspan);
+    });
+
+    const subText = document.createElementNS(ns, 'text');
+    subText.setAttribute('class', 'node-sub');
+    subText.setAttribute('y', node.type === 'owner' ? 21 : node.radius - 9);
+    subText.textContent = node.type === 'owner'
+      ? `${degree[node.name]} task${degree[node.name] === 1 ? '' : 's'}`
+      : node.status;
+
+    group.append(circle, nameText, subText);
+    nodeLayer.appendChild(group);
+
+    node.element = group;
+
+    group.addEventListener('pointerdown', event => startDrag(event, node));
+    group.addEventListener('pointerenter', event => showRelationships(node, event));
+    group.addEventListener('pointermove', event => moveTooltip(event));
+    group.addEventListener('pointerleave', clearRelationships);
+
+    return group;
+  });
+
+  function splitLabel(text, maxChars) {
+    const words = text.split(/\s+/);
+    const lines = [];
+    let current = '';
+    words.forEach(word => {
+      const proposal = current ? `${current} ${word}` : word;
+      if (proposal.length <= maxChars) {
+        current = proposal;
+      } else {
+        if (current) lines.push(current);
+        current = word;
+      }
+    });
+    if (current) lines.push(current);
+    return lines;
+  }
+
+  function resize() {
+    const rect = svg.getBoundingClientRect();
+    width = Math.max(rect.width, 320);
+    height = Math.max(rect.height, 420);
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    if (!nodes.some(node => node.x || node.y)) resetLayout();
+  }
+
+  function resetLayout() {
+    const ownerNodes = nodes.filter(node => node.type === 'owner');
+    const taskNodes = nodes.filter(node => node.type === 'task');
+
+    ownerNodes.forEach((node, i) => {
+      const angle = (Math.PI * 2 * i / ownerNodes.length) - Math.PI / 2;
+      node.x = width / 2 + Math.cos(angle) * Math.min(width, height) * 0.27;
+      node.y = height / 2 + Math.sin(angle) * Math.min(width, height) * 0.24;
+      node.vx = 0;
+      node.vy = 0;
+      node.fixed = false;
+    });
+
+    taskNodes.forEach((node, i) => {
+      const angle = (Math.PI * 2 * i / taskNodes.length) - Math.PI / 2;
+      const ring = i % 3 === 0 ? 0.46 : (i % 3 === 1 ? 0.38 : 0.31);
+      node.x = width / 2 + Math.cos(angle) * Math.min(width, height) * ring;
+      node.y = height / 2 + Math.sin(angle) * Math.min(width, height) * ring;
+      node.vx = 0;
+      node.vy = 0;
+      node.fixed = false;
+    });
+  }
+
+  function startDrag(event, node) {
+    event.preventDefault();
+    dragging = node;
+    dragPointerId = event.pointerId;
+    node.fixed = true;
+    node.element.setPointerCapture(event.pointerId);
+    setDraggedPosition(event, node);
+
+    const moveHandler = moveEvent => {
+      if (moveEvent.pointerId !== dragPointerId) return;
+      setDraggedPosition(moveEvent, node);
+    };
+
+    const upHandler = upEvent => {
+      if (upEvent.pointerId !== dragPointerId) return;
+      node.element.releasePointerCapture(upEvent.pointerId);
+      node.fixed = false;
+      dragging = null;
+      dragPointerId = null;
+      node.element.removeEventListener('pointermove', moveHandler);
+      node.element.removeEventListener('pointerup', upHandler);
+      node.element.removeEventListener('pointercancel', upHandler);
+    };
+
+    node.element.addEventListener('pointermove', moveHandler);
+    node.element.addEventListener('pointerup', upHandler);
+    node.element.addEventListener('pointercancel', upHandler);
+  }
+
+  function setDraggedPosition(event, node) {
+    const point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const transformed = point.matrixTransform(svg.getScreenCTM().inverse());
+    node.x = transformed.x;
+    node.y = transformed.y;
+    node.vx = 0;
+    node.vy = 0;
+  }
+
+  function isVisible(node) {
+    return node.type === 'owner' || activeFilter === 'All' || node.category === activeFilter;
+  }
+
+  function simulate(now) {
+    const delta = Math.min((now - lastTime) / 16.667, 2);
+    lastTime = now;
+
+    if (!paused) {
+      const visibleNodes = nodes.filter(isVisible);
+      const visibleSet = new Set(visibleNodes.map(node => node.id));
+
+      // Gentle center force and perpetual floating drift.
+      visibleNodes.forEach((node, index) => {
+        if (node.fixed) return;
+        node.vx += (width / 2 - node.x) * 0.00028 * delta;
+        node.vy += (height / 2 - node.y) * 0.00028 * delta;
+        node.vx += Math.sin(now * 0.00055 + index * 1.7) * 0.010 * delta;
+        node.vy += Math.cos(now * 0.00048 + index * 1.3) * 0.010 * delta;
+      });
+
+
+      // Keep owners in separate zones so the graph remains scattered.
+      const visibleOwners = visibleNodes.filter(node => node.type === 'owner');
+      visibleOwners.forEach((owner, index) => {
+        if (owner.fixed) return;
+        const angle = (Math.PI * 2 * index / Math.max(visibleOwners.length, 1)) - Math.PI / 2;
+        const targetRadius = Math.min(width, height) * 0.27;
+        const targetX = width / 2 + Math.cos(angle) * targetRadius;
+        const targetY = height / 2 + Math.sin(angle) * targetRadius;
+        owner.vx += (targetX - owner.x) * 0.0012 * delta;
+        owner.vy += (targetY - owner.y) * 0.0012 * delta;
+      });
+
+      // Link attraction.
+      links.forEach(link => {
+        if (!visibleSet.has(link.source.id) || !visibleSet.has(link.target.id)) return;
+        const dx = link.target.x - link.source.x;
+        const dy = link.target.y - link.source.y;
+        const distance = Math.max(Math.hypot(dx, dy), 0.1);
+        const ideal = link.shared ? 225 : 255;
+        const strength = (distance - ideal) * 0.00048 * delta;
+        const fx = dx / distance * strength;
+        const fy = dy / distance * strength;
+
+        if (!link.source.fixed) {
+          link.source.vx += fx;
+          link.source.vy += fy;
+        }
+        if (!link.target.fixed) {
+          link.target.vx -= fx;
+          link.target.vy -= fy;
+        }
+      });
+
+      // Repulsion / collision.
+      for (let i = 0; i < visibleNodes.length; i++) {
+        for (let j = i + 1; j < visibleNodes.length; j++) {
+          const a = visibleNodes[i];
+          const b = visibleNodes[j];
+          let dx = b.x - a.x;
+          let dy = b.y - a.y;
+          let distance = Math.max(Math.hypot(dx, dy), 0.1);
+          const minDistance = a.radius + b.radius + 48;
+          const repel = (a.type === 'owner' && b.type === 'owner') ? 1.25 : 0.78;
+
+          if (distance < minDistance * 3.4) {
+            const force = repel / Math.max(distance * distance, 900) * 1800 * delta;
+            const fx = dx / distance * force;
+            const fy = dy / distance * force;
+            if (!a.fixed) {
+              a.vx -= fx;
+              a.vy -= fy;
+            }
+            if (!b.fixed) {
+              b.vx += fx;
+              b.vy += fy;
+            }
+          }
+
+          if (distance < minDistance) {
+            const overlap = (minDistance - distance) * 0.018 * delta;
+            const fx = dx / distance * overlap;
+            const fy = dy / distance * overlap;
+            if (!a.fixed) {
+              a.vx -= fx;
+              a.vy -= fy;
+            }
+            if (!b.fixed) {
+              b.vx += fx;
+              b.vy += fy;
+            }
+          }
+        }
+      }
+
+      // Integrate velocity and contain nodes.
+      visibleNodes.forEach(node => {
+        if (node.fixed) return;
+        node.vx *= 0.94;
+        node.vy *= 0.94;
+        node.x += node.vx * delta;
+        node.y += node.vy * delta;
+
+        const margin = node.radius + 10;
+        if (node.x < margin) {
+          node.x = margin;
+          node.vx *= -0.45;
+        }
+        if (node.x > width - margin) {
+          node.x = width - margin;
+          node.vx *= -0.45;
+        }
+        if (node.y < margin) {
+          node.y = margin;
+          node.vy *= -0.45;
+        }
+        if (node.y > height - margin) {
+          node.y = height - margin;
+          node.vy *= -0.45;
+        }
+      });
+    }
+
+    render();
+    animationId = requestAnimationFrame(simulate);
+  }
+
+  function render() {
+    nodes.forEach(node => {
+      const visible = isVisible(node);
+      node.element.style.display = visible ? '' : 'none';
+      if (visible) node.element.setAttribute('transform', `translate(${node.x},${node.y})`);
+    });
+
+    links.forEach(link => {
+      const visible = isVisible(link.source) && isVisible(link.target);
+      link.element.style.display = visible ? '' : 'none';
+      if (!visible) return;
+      link.element.setAttribute('x1', link.source.x);
+      link.element.setAttribute('y1', link.source.y);
+      link.element.setAttribute('x2', link.target.x);
+      link.element.setAttribute('y2', link.target.y);
+    });
+  }
+
+  function showRelationships(node, event) {
+    const connectedIds = new Set([node.id]);
+    links.forEach(link => {
+      if (link.source.id === node.id) connectedIds.add(link.target.id);
+      if (link.target.id === node.id) connectedIds.add(link.source.id);
+    });
+
+    nodes.forEach(item => {
+      item.element.classList.toggle('dimmed', !connectedIds.has(item.id));
+      item.element.classList.toggle('highlighted', connectedIds.has(item.id));
+    });
+
+    links.forEach(link => {
+      const connected = link.source.id === node.id || link.target.id === node.id;
+      link.element.classList.toggle('dimmed', !connected);
+      link.element.classList.toggle('highlighted', connected);
+    });
+
+    tooltip.innerHTML = node.type === 'owner'
+      ? `<strong>${node.name}</strong><br>${degree[node.name]} connected work item${degree[node.name] === 1 ? '' : 's'}`
+      : `<strong>${node.name}</strong><br>${node.category}<br>Status: ${node.status}<br>Owner${node.owners.length > 1 ? 's' : ''}: ${node.owners.join(', ')}`;
+
+    tooltip.style.display = 'block';
+    moveTooltip(event);
+  }
+
+  function moveTooltip(event) {
+    const wrap = svg.parentElement.getBoundingClientRect();
+    const x = Math.min(event.clientX - wrap.left + 14, wrap.width - 275);
+    const y = Math.min(event.clientY - wrap.top + 14, wrap.height - 110);
+    tooltip.style.left = `${Math.max(8, x)}px`;
+    tooltip.style.top = `${Math.max(8, y)}px`;
+  }
+
+  function clearRelationships() {
+    nodes.forEach(node => node.element.classList.remove('dimmed', 'highlighted'));
+    links.forEach(link => link.element.classList.remove('dimmed', 'highlighted'));
+    tooltip.style.display = 'none';
+  }
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      activeFilter = button.dataset.networkFilter;
+      filterButtons.forEach(item => item.classList.toggle('active', item === button));
+      clearRelationships();
+      resetLayout();
+    });
+  });
+
+  pauseButton.addEventListener('click', () => {
+    paused = !paused;
+    pauseButton.textContent = paused ? 'Resume movement' : 'Pause movement';
+  });
+
+  resetButton.addEventListener('click', () => {
+    paused = false;
+    pauseButton.textContent = 'Pause movement';
+    resetLayout();
+  });
+
+  window.addEventListener('resize', resize);
+  resize();
+  resetLayout();
+  animationId = requestAnimationFrame(simulate);
+})();
+</script>
+
+</body>
+</html>
