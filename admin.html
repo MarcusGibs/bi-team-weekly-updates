@@ -291,6 +291,65 @@ h1 {
   border: 1px solid #bfdbfe;
 }
 
+.project-card {
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.project-card h4 {
+  margin: 0 0 16px 0;
+  color: var(--navy);
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.stage-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.stage-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.stage-checkbox:hover {
+  border-color: var(--blue);
+}
+
+.stage-checkbox input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.stage-checkbox label {
+  margin: 0;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+}
+
 @media (max-width: 768px) {
   .form-row {
     grid-template-columns: 1fr;
@@ -395,6 +454,30 @@ h1 {
         <button type="button" class="btn-small" onclick="addPriority()" style="margin-top: 8px;">+ Add Priority</button>
       </div>
 
+      <hr style="margin: 40px 0; border: none; border-top: 2px solid var(--line);">
+
+      <h3 style="margin-bottom: 20px; color: var(--navy);">HB1 Integration Projects</h3>
+      <div id="hb1ProjectsList"></div>
+      <button type="button" class="btn-small" onclick="addProject('hb1')" style="margin-top: 12px;">+ Add HB1 Project</button>
+
+      <hr style="margin: 40px 0; border: none; border-top: 2px solid var(--line);">
+
+      <h3 style="margin-bottom: 20px; color: var(--navy);">Other Projects</h3>
+      <div id="otherProjectsList"></div>
+      <button type="button" class="btn-small" onclick="addProject('other')" style="margin-top: 12px;">+ Add Other Project</button>
+
+      <hr style="margin: 40px 0; border: none; border-top: 2px solid var(--line);">
+
+      <h3 style="margin-bottom: 20px; color: var(--navy);">Ad Hoc Requests</h3>
+      <div id="adHocList"></div>
+      <button type="button" class="btn-small" onclick="addAdHoc()" style="margin-top: 12px;">+ Add Ad Hoc Request</button>
+
+      <hr style="margin: 40px 0; border: none; border-top: 2px solid var(--line);">
+
+      <h3 style="margin-bottom: 20px; color: var(--navy);">Risks & Dependencies</h3>
+      <div id="risksList"></div>
+      <button type="button" class="btn-small" onclick="addRisk()" style="margin-top: 12px;">+ Add Risk</button>
+
       <div style="margin-top: 32px;">
         <button type="submit" class="btn-primary">💾 Save Update</button>
         <button type="button" class="btn-secondary" onclick="resetForm()">Cancel</button>
@@ -459,6 +542,171 @@ function removePriority(btn) {
   btn.parentElement.remove();
 }
 
+function addProject(type) {
+  const listId = type === 'hb1' ? 'hb1ProjectsList' : 'otherProjectsList';
+  const list = document.getElementById(listId);
+  const index = list.children.length;
+  
+  const projectCard = document.createElement('div');
+  projectCard.className = 'project-card';
+  projectCard.innerHTML = `
+    <h4>
+      <span>Project ${index + 1}</span>
+      <button type="button" class="btn-small btn-remove" onclick="this.closest('.project-card').remove()">Remove</button>
+    </h4>
+    <div class="project-grid">
+      <div class="form-group" style="margin: 0;">
+        <label>Project Name *</label>
+        <input type="text" class="project-name" placeholder="Scorecard" required>
+      </div>
+      <div class="form-group" style="margin: 0;">
+        <label>Technology *</label>
+        <input type="text" class="project-tech" placeholder="Power BI" required>
+      </div>
+      <div class="form-group" style="margin: 0;">
+        <label>Owner *</label>
+        <input type="text" class="project-owner" placeholder="Mark" required>
+      </div>
+    </div>
+    ${type === 'hb1' ? `
+    <div class="form-group" style="margin: 12px 0 0 0;">
+      <label>Delivery Stages (check completed/in-progress)</label>
+      <div class="stage-checkboxes">
+        <div class="stage-checkbox">
+          <input type="checkbox" class="stage-scoping" id="scoping-${index}">
+          <label for="scoping-${index}">Scoping</label>
+        </div>
+        <div class="stage-checkbox">
+          <input type="checkbox" class="stage-development" id="development-${index}">
+          <label for="development-${index}">Development</label>
+        </div>
+        <div class="stage-checkbox">
+          <input type="checkbox" class="stage-internal" id="internal-${index}">
+          <label for="internal-${index}">Internal Testing</label>
+        </div>
+        <div class="stage-checkbox">
+          <input type="checkbox" class="stage-external" id="external-${index}">
+          <label for="external-${index}">External Testing</label>
+        </div>
+        <div class="stage-checkbox">
+          <input type="checkbox" class="stage-uat" id="uat-${index}">
+          <label for="uat-${index}">UAT</label>
+        </div>
+        <div class="stage-checkbox">
+          <input type="checkbox" class="stage-hypercare" id="hypercare-${index}">
+          <label for="hypercare-${index}">Hypercare</label>
+        </div>
+      </div>
+    </div>
+    ` : `
+    <div class="form-group" style="margin: 12px 0 0 0;">
+      <label>Status</label>
+      <select class="project-status">
+        <option value="done">Done</option>
+        <option value="progress">In Progress</option>
+        <option value="paused">Paused</option>
+        <option value="pending">Pending</option>
+      </select>
+    </div>
+    `}
+    <div class="form-group" style="margin: 12px 0 0 0;">
+      <label>This Week Update</label>
+      <textarea class="project-update" placeholder="What happened this week..." rows="2"></textarea>
+    </div>
+    <div class="form-group" style="margin: 12px 0 0 0;">
+      <label>Next Action</label>
+      <textarea class="project-next" placeholder="What's next..." rows="2"></textarea>
+    </div>
+    <div class="form-group" style="margin: 12px 0 0 0;">
+      <label>Forecast</label>
+      <input type="text" class="project-forecast" placeholder="TBC — UAT readiness">
+    </div>
+  `;
+  list.appendChild(projectCard);
+}
+
+function addAdHoc() {
+  const list = document.getElementById('adHocList');
+  const card = document.createElement('div');
+  card.className = 'project-card';
+  card.innerHTML = `
+    <h4>
+      <span>Request ${list.children.length + 1}</span>
+      <button type="button" class="btn-small btn-remove" onclick="this.closest('.project-card').remove()">Remove</button>
+    </h4>
+    <div class="project-grid">
+      <div class="form-group" style="margin: 0;">
+        <label>Request Name *</label>
+        <input type="text" class="adhoc-name" placeholder="Costing Sheet Macro Review" required>
+      </div>
+      <div class="form-group" style="margin: 0;">
+        <label>Technology</label>
+        <input type="text" class="adhoc-tech" placeholder="Excel">
+      </div>
+      <div class="form-group" style="margin: 0;">
+        <label>Raised By</label>
+        <input type="text" class="adhoc-raised" placeholder="Justin & Gavin">
+      </div>
+    </div>
+    <div class="project-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="form-group" style="margin: 12px 0 0 0;">
+        <label>Status</label>
+        <select class="adhoc-status">
+          <option value="monitoring">Monitoring</option>
+          <option value="progress">In Progress</option>
+          <option value="done">Done</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin: 12px 0 0 0;">
+        <label>Owner</label>
+        <input type="text" class="adhoc-owner" placeholder="Mark">
+      </div>
+    </div>
+    <div class="form-group" style="margin: 12px 0 0 0;">
+      <label>Next Action</label>
+      <textarea class="adhoc-next" placeholder="Continue monitoring and support..." rows="2"></textarea>
+    </div>
+  `;
+  list.appendChild(card);
+}
+
+function addRisk() {
+  const list = document.getElementById('risksList');
+  const card = document.createElement('div');
+  card.className = 'project-card';
+  card.innerHTML = `
+    <h4>
+      <span>Risk ${list.children.length + 1}</span>
+      <button type="button" class="btn-small btn-remove" onclick="this.closest('.project-card').remove()">Remove</button>
+    </h4>
+    <div class="form-group" style="margin: 0;">
+      <label>Risk Level</label>
+      <select class="risk-level">
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
+    </div>
+    <div class="form-group" style="margin: 12px 0 0 0;">
+      <label>Risk Description *</label>
+      <input type="text" class="risk-name" placeholder="HB1 Margin data is not finalised..." required>
+    </div>
+    <div class="form-group" style="margin: 12px 0 0 0;">
+      <label>Impact</label>
+      <textarea class="risk-impact" placeholder="Scheduled and Actual Margin fields are not yet finalised..." rows="2"></textarea>
+    </div>
+    <div class="form-group" style="margin: 12px 0 0 0;">
+      <label>Affected Reports</label>
+      <input type="text" class="risk-affected" placeholder="Scorecard; Gross Margin Report">
+    </div>
+  `;
+  list.appendChild(card);
+}
+
+function removePriority(btn) {
+  btn.parentElement.remove();
+}
+
 function editUpdate(index) {
   const update = updatesData.updates[index];
   document.getElementById('editIndex').value = index;
@@ -487,6 +735,77 @@ function editUpdate(index) {
     priorityList.appendChild(item);
   });
 
+  // Load HB1 projects
+  document.getElementById('hb1ProjectsList').innerHTML = '';
+  (update.hb1Projects || []).forEach(() => {
+    addProject('hb1');
+  });
+  const hb1Cards = document.querySelectorAll('#hb1ProjectsList .project-card');
+  (update.hb1Projects || []).forEach((proj, i) => {
+    const card = hb1Cards[i];
+    card.querySelector('.project-name').value = proj.name;
+    card.querySelector('.project-tech').value = proj.technology;
+    card.querySelector('.project-owner').value = proj.owner;
+    if (proj.stages) {
+      card.querySelector('.stage-scoping').checked = proj.stages.scoping;
+      card.querySelector('.stage-development').checked = proj.stages.development;
+      card.querySelector('.stage-internal').checked = proj.stages.internalTesting;
+      card.querySelector('.stage-external').checked = proj.stages.externalTesting;
+      card.querySelector('.stage-uat').checked = proj.stages.uat;
+      card.querySelector('.stage-hypercare').checked = proj.stages.hypercare;
+    }
+    card.querySelector('.project-update').value = proj.thisWeek || '';
+    card.querySelector('.project-next').value = proj.nextAction || '';
+    card.querySelector('.project-forecast').value = proj.forecast || '';
+  });
+
+  // Load other projects
+  document.getElementById('otherProjectsList').innerHTML = '';
+  (update.otherProjects || []).forEach(() => {
+    addProject('other');
+  });
+  const otherCards = document.querySelectorAll('#otherProjectsList .project-card');
+  (update.otherProjects || []).forEach((proj, i) => {
+    const card = otherCards[i];
+    card.querySelector('.project-name').value = proj.name;
+    card.querySelector('.project-tech').value = proj.technology;
+    card.querySelector('.project-owner').value = proj.owner;
+    card.querySelector('.project-status').value = proj.status || 'progress';
+    card.querySelector('.project-update').value = proj.thisWeek || '';
+    card.querySelector('.project-next').value = proj.nextAction || '';
+    card.querySelector('.project-forecast').value = proj.forecast || '';
+  });
+
+  // Load ad hoc requests
+  document.getElementById('adHocList').innerHTML = '';
+  (update.adHocRequests || []).forEach(() => {
+    addAdHoc();
+  });
+  const adHocCards = document.querySelectorAll('#adHocList .project-card');
+  (update.adHocRequests || []).forEach((req, i) => {
+    const card = adHocCards[i];
+    card.querySelector('.adhoc-name').value = req.name;
+    card.querySelector('.adhoc-tech').value = req.technology || '';
+    card.querySelector('.adhoc-raised').value = req.raisedBy || '';
+    card.querySelector('.adhoc-status').value = req.status || 'monitoring';
+    card.querySelector('.adhoc-owner').value = req.owner || '';
+    card.querySelector('.adhoc-next').value = req.nextAction || '';
+  });
+
+  // Load risks
+  document.getElementById('risksList').innerHTML = '';
+  (update.riskDetails || []).forEach(() => {
+    addRisk();
+  });
+  const riskCards = document.querySelectorAll('#risksList .project-card');
+  (update.riskDetails || []).forEach((risk, i) => {
+    const card = riskCards[i];
+    card.querySelector('.risk-level').value = risk.level || 'high';
+    card.querySelector('.risk-name').value = risk.risk;
+    card.querySelector('.risk-impact').value = risk.impact || '';
+    card.querySelector('.risk-affected').value = risk.affectedReports || '';
+  });
+
   window.scrollTo({ top: document.getElementById('updateForm').offsetTop - 100, behavior: 'smooth' });
 }
 
@@ -509,6 +828,10 @@ function resetForm() {
       <button type="button" class="btn-small btn-remove" onclick="removePriority(this)">Remove</button>
     </div>
   `;
+  document.getElementById('hb1ProjectsList').innerHTML = '';
+  document.getElementById('otherProjectsList').innerHTML = '';
+  document.getElementById('adHocList').innerHTML = '';
+  document.getElementById('risksList').innerHTML = '';
 }
 
 function showAlert(message, type = 'info') {
@@ -526,6 +849,53 @@ document.getElementById('updateForm').addEventListener('submit', (e) => {
   const priorities = Array.from(document.querySelectorAll('.priority-input'))
     .map(input => input.value.trim())
     .filter(val => val);
+
+  // Collect HB1 projects
+  const hb1Projects = Array.from(document.querySelectorAll('#hb1ProjectsList .project-card')).map(card => ({
+    name: card.querySelector('.project-name').value,
+    technology: card.querySelector('.project-tech').value,
+    owner: card.querySelector('.project-owner').value,
+    stages: {
+      scoping: card.querySelector('.stage-scoping')?.checked || false,
+      development: card.querySelector('.stage-development')?.checked || false,
+      internalTesting: card.querySelector('.stage-internal')?.checked || false,
+      externalTesting: card.querySelector('.stage-external')?.checked || false,
+      uat: card.querySelector('.stage-uat')?.checked || false,
+      hypercare: card.querySelector('.stage-hypercare')?.checked || false
+    },
+    thisWeek: card.querySelector('.project-update').value,
+    nextAction: card.querySelector('.project-next').value,
+    forecast: card.querySelector('.project-forecast').value
+  }));
+
+  // Collect other projects
+  const otherProjects = Array.from(document.querySelectorAll('#otherProjectsList .project-card')).map(card => ({
+    name: card.querySelector('.project-name').value,
+    technology: card.querySelector('.project-tech').value,
+    owner: card.querySelector('.project-owner').value,
+    status: card.querySelector('.project-status').value,
+    thisWeek: card.querySelector('.project-update').value,
+    nextAction: card.querySelector('.project-next').value,
+    forecast: card.querySelector('.project-forecast').value
+  }));
+
+  // Collect ad hoc requests
+  const adHocRequests = Array.from(document.querySelectorAll('#adHocList .project-card')).map(card => ({
+    name: card.querySelector('.adhoc-name').value,
+    technology: card.querySelector('.adhoc-tech').value,
+    raisedBy: card.querySelector('.adhoc-raised').value,
+    status: card.querySelector('.adhoc-status').value,
+    owner: card.querySelector('.adhoc-owner').value,
+    nextAction: card.querySelector('.adhoc-next').value
+  }));
+
+  // Collect risks
+  const risks = Array.from(document.querySelectorAll('#risksList .project-card')).map(card => ({
+    level: card.querySelector('.risk-level').value,
+    risk: card.querySelector('.risk-name').value,
+    impact: card.querySelector('.risk-impact').value,
+    affectedReports: card.querySelector('.risk-affected').value
+  }));
 
   const status = document.getElementById('status').value;
   const statusLabels = { green: 'Green', amber: 'Amber', red: 'Red' };
@@ -548,7 +918,11 @@ document.getElementById('updateForm').addEventListener('submit', (e) => {
     risks: parseInt(document.getElementById('risks').value),
     owner: "BI Team",
     executiveSummary: document.getElementById('executiveSummary').value,
-    priorities
+    priorities,
+    hb1Projects,
+    otherProjects,
+    adHocRequests,
+    riskDetails: risks
   };
 
   const editIndex = document.getElementById('editIndex').value;
