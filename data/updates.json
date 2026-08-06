@@ -1,0 +1,25 @@
+{
+  "updates": [
+    {
+      "week": "W32",
+      "year": 2026,
+      "dateRange": "3–7 August 2026",
+      "status": "amber",
+      "statusLabel": "Amber",
+      "title": "BI Team Weekly Update — W32",
+      "summary": "Testing dependencies require attention. Scorecard, Mega Report and MMM Report continue through internal and external testing. Development progressing for Indemnity Report and GP Calculator.",
+      "fileName": "weekly-updates/w32-2026.html",
+      "projects": 9,
+      "adHoc": 2,
+      "risks": 2,
+      "owner": "BI Team",
+      "executiveSummary": "The BI team update remains Amber. Scorecard, Mega Report and MMM Report continue through internal and external testing, with the data-source transition from OLD UAT to the Training Environment as the next major milestone.",
+      "priorities": [
+        "Prepare the OLD UAT to Training Environment data-source switch.",
+        "Secure sufficient claims and margin testing data.",
+        "Continue Indemnity, Scheduling, GP Calculator and OSB development.",
+        "Draft the future intranet solution recommendation."
+      ]
+    }
+  ]
+}

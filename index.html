@@ -433,30 +433,27 @@ h1 {
 </div>
 
 <script>
-// Weekly updates data - Add new updates here
-const weeklyUpdates = [
-  {
-    week: "W32",
-    year: 2026,
-    dateRange: "3–7 August 2026",
-    status: "amber",
-    statusLabel: "Amber",
-    title: "BI Team Weekly Update — W32",
-    summary: "Testing dependencies require attention. Scorecard, Mega Report and MMM Report continue through internal and external testing. Development progressing for Indemnity Report and GP Calculator.",
-    fileName: "weekly-updates/w32-2026.html",
-    projects: 9,
-    adHoc: 2,
-    risks: 2,
-    owner: "BI Team"
-  },
-  // Add more updates here as they become available
-];
+// Load weekly updates from JSON file
+let weeklyUpdates = [];
 
-// Sort updates by week (newest first)
-weeklyUpdates.sort((a, b) => {
-  if (a.year !== b.year) return b.year - a.year;
-  return parseInt(b.week.substring(1)) - parseInt(a.week.substring(1));
-});
+async function loadUpdates() {
+  try {
+    const response = await fetch('data/updates.json');
+    const data = await response.json();
+    weeklyUpdates = data.updates;
+    
+    // Sort updates by week (newest first)
+    weeklyUpdates.sort((a, b) => {
+      if (a.year !== b.year) return b.year - a.year;
+      return parseInt(b.week.substring(1)) - parseInt(a.week.substring(1));
+    });
+    
+    renderUpdates();
+  } catch (error) {
+    console.error('Error loading updates:', error);
+    emptyState.style.display = 'block';
+  }
+}
 
 // Initialize
 const updatesGrid = document.getElementById('updatesGrid');
@@ -529,8 +526,8 @@ filterButtons.forEach(button => {
   });
 });
 
-// Initial render
-renderUpdates();
+// Initial load
+loadUpdates();
 </script>
 </body>
 </html>
